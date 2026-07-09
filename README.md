@@ -4,53 +4,43 @@
 
 In Oracle HCM Fusion Recruiting, a large number of job requisitions would become stale over time but continued to receive candidate applications. This created a significant manual workload for recruiters who had to review and close these requisitions individually.
 
-I designed and developed an end-to-end automation solution to intelligently identify and auto-close stale requisitions, thereby improving recruiter productivity and maintaining data quality in the system.
+I designed and developed an end-to-end automation solution using Java and Spring Boot to intelligently identify and auto-close stale requisitions. The goal was to reduce manual effort and improve recruiter productivity while maintaining data quality.
 
 ## Problem Statement
 
-- High volume of stale job postings continued receiving applications.
-- Manual review process was time-consuming and reduced recruiter efficiency.
-- There was a need for an automated, configurable, and reliable solution that could work across multiple triggering mechanisms (UI, scheduled jobs, and external APIs).
+Recruiters were spending a lot of time manually reviewing and closing stale job requisitions that kept receiving applications. There was a need for an automated, reliable, and configurable solution that could work across multiple execution paths (UI, scheduled jobs, and external systems).
 
-## Architecture
+## Key Features & Design
 
-The solution was built as a **Spring Boot microservice** with the following key components:
-
-- **Rule Engine**: Configurable business rules to determine stale requisitions based on activity, volume, and status.
-- **Execution Layer**: Handled closure logic and status updates in Oracle HCM Fusion.
-- **Integration Layer**: Published events to Oracle Integration Cloud (OIC) for downstream reporting and workflows.
-- **Security Layer**: Implemented using OAuth 2.0 and JWT for secure API communication.
-
-The service was designed to be triggered through multiple paths:
-- Fusion UI
-- Scheduled batch processes
-- External REST API calls
+- Built a Spring Boot application to automatically detect and close stale job requisitions based on configurable business rules.
+- Designed the solution to support multiple triggering mechanisms: Fusion UI, scheduled batch processes, and external REST API calls.
+- Integrated with Oracle HCM Fusion using REST APIs secured with OAuth 2.0 and JWT authentication.
+- Published business events to Oracle Integration Cloud (OIC) for downstream reporting and workflow processing.
 
 ## Key Design Decisions
 
 ### 1. Configurable Rule Engine
-Instead of hardcoding staleness criteria, I built a flexible rule engine. This allowed business teams to modify rules without requiring code changes, improving agility and reducing engineering dependency.
+Instead of hardcoding the logic to identify stale requisitions, I designed a configurable rule engine. This allowed business teams to modify rules (such as last activity date or application volume) without requiring code changes. This improved flexibility and reduced dependency on engineering for frequent updates.
 
-### 2. Independent Microservice Design
-I chose to build the solution as a standalone Spring Boot service rather than embedding logic inside Oracle ADF. This improved maintainability, enabled independent scaling, and allowed multi-channel triggering.
+### 2. Multi-Channel Trigger Design
+I designed the application to be triggered from multiple sources (UI, scheduler, and external APIs) rather than embedding the logic inside Oracle ADF. This made the solution more maintainable and reusable across different execution paths.
 
 ## Technologies Used
 
-- **Backend**: Java, Spring Boot, Spring Data
-- **Integration**: REST APIs, Oracle Integration Cloud (OIC)
-- **Security**: OAuth 2.0, JWT
-- **Database**: Oracle Database, PL/SQL
-- **Other**: Oracle ADF, Swagger (API Documentation)
+- Java, Spring Boot, Spring Data
+- REST APIs, OAuth 2.0, JWT
+- Oracle Database, PL/SQL
+- Oracle Integration Cloud (OIC)
+- Oracle ADF & Oracle JET (for UI integration)
 
 ## Impact
 
 - Significantly reduced manual review effort for **thousands of candidate applications** daily.
-- Improved data quality by removing irrelevant applications from active workflows.
-- The solution became a reusable pattern for automation use cases within the recruiting domain.
-- Enabled consistent execution across UI, scheduled jobs, and external systems.
+- Improved data quality in the recruiting system by removing irrelevant applications from active workflows.
+- The solution was adopted as a standard automation pattern within the recruiting domain.
 
 ## Key Learnings
 
-- Importance of building configurable and maintainable systems in enterprise environments.
-- Value of designing solutions that support multiple integration patterns.
-- Balancing business flexibility with system stability and performance.
+- Importance of building configurable systems in enterprise environments.
+- Designing solutions that support multiple integration and execution patterns.
+- Balancing business requirements with system maintainability and performance.
